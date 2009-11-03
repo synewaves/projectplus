@@ -24,6 +24,13 @@
 			if([[treeItem objectForKey:@"subItems"] count])
 				[self expandItems:[item objectForKey:@"children"] inOutlineView:outlineView toState:[treeItem objectForKey:@"subItems"]];
 		}
+		
+		NSScrollView *scrollView = [[outlineView superview] superview];
+		[scrollView setBorderType: NSNoBorder];
+		
+		[outlineView setSelectionHighlightStyle: NSTableViewSelectionHighlightStyleSourceList];
+		[outlineView setRowHeight: 14];
+		[outlineView setIntercellSpacing: (NSSize){3.0, 6.0}];
 	}
 }
 

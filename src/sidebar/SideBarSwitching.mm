@@ -43,7 +43,7 @@
 	{
 		[splitView setVertical:YES];
 		[splitView setDelegate:self];
-		[splitView setSideBarOnRight:[SideBarSwitching sidebarOnRight]];
+		//[splitView setSideBarOnRight:[SideBarSwitching sidebarOnRight]];
 
 		if(not [SideBarSwitching sidebarOnRight])
 			[splitView addSubview:drawerView];
@@ -52,8 +52,8 @@
 			[splitView addSubview:drawerView];
 		[window setContentView:splitView];
 	}
+	
 	[splitView release];
-
 	[documentView release];
 	[drawerView release];
 	
