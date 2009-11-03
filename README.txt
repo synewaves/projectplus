@@ -1,3 +1,5 @@
+<img src="http://github.com/markhuot/projectplus/raw/master/releases/shot.png" />
+
 An updated version ready for Snow Leopard.
 
 Download from the `releases` directory.
