@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EE8F50410A3E17600DD8EBA /* bkg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F50110A3E17600DD8EBA /* bkg.tiff */; };
+		0EE8F50510A3E17600DD8EBA /* gear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F50210A3E17600DD8EBA /* gear.tiff */; };
+		0EE8F50610A3E17600DD8EBA /* plus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F50310A3E17600DD8EBA /* plus.tiff */; };
+		0EE8F5FB10A3E85300DD8EBA /* plusdir.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F5FA10A3E85300DD8EBA /* plusdir.tiff */; };
+		0EE8F60710A3E94400DD8EBA /* pluspressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F60610A3E94400DD8EBA /* pluspressed.tiff */; };
+		0EE8F61A10A3EB3300DD8EBA /* gearpressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F61910A3EB3300DD8EBA /* gearpressed.tiff */; };
+		0EE8F62D10A3ECE100DD8EBA /* plusdirpressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F62C10A3ECE100DD8EBA /* plusdirpressed.tiff */; };
+		0EE8F6B710A3EF5600DD8EBA /* info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F6B410A3EF5600DD8EBA /* info.tiff */; };
+		0EE8F6B810A3EF5600DD8EBA /* infodisabled.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F6B510A3EF5600DD8EBA /* infodisabled.tiff */; };
+		0EE8F6B910A3EF5600DD8EBA /* infopressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0EE8F6B610A3EF5600DD8EBA /* infopressed.tiff */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		911112540E5C8AF900BF76B4 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911112530E5C8AF900BF76B4 /* Sparkle.framework */; };
 		9111129C0E5C8D9000BF76B4 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 911112530E5C8AF900BF76B4 /* Sparkle.framework */; };
@@ -67,6 +77,16 @@
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		0EE8F50110A3E17600DD8EBA /* bkg.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = bkg.tiff; sourceTree = "<group>"; };
+		0EE8F50210A3E17600DD8EBA /* gear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = gear.tiff; sourceTree = "<group>"; };
+		0EE8F50310A3E17600DD8EBA /* plus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plus.tiff; sourceTree = "<group>"; };
+		0EE8F5FA10A3E85300DD8EBA /* plusdir.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plusdir.tiff; sourceTree = "<group>"; };
+		0EE8F60610A3E94400DD8EBA /* pluspressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = pluspressed.tiff; sourceTree = "<group>"; };
+		0EE8F61910A3EB3300DD8EBA /* gearpressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = gearpressed.tiff; sourceTree = "<group>"; };
+		0EE8F62C10A3ECE100DD8EBA /* plusdirpressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plusdirpressed.tiff; sourceTree = "<group>"; };
+		0EE8F6B410A3EF5600DD8EBA /* info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = info.tiff; sourceTree = "<group>"; };
+		0EE8F6B510A3EF5600DD8EBA /* infodisabled.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = infodisabled.tiff; sourceTree = "<group>"; };
+		0EE8F6B610A3EF5600DD8EBA /* infopressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = infopressed.tiff; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B6048680CD000E48DA /* ProjectPlus.tmplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectPlus.tmplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		911112530E5C8AF900BF76B4 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
@@ -204,6 +224,16 @@
 		915AD3D90ED9E2070017679A /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				0EE8F6B410A3EF5600DD8EBA /* info.tiff */,
+				0EE8F6B510A3EF5600DD8EBA /* infodisabled.tiff */,
+				0EE8F6B610A3EF5600DD8EBA /* infopressed.tiff */,
+				0EE8F62C10A3ECE100DD8EBA /* plusdirpressed.tiff */,
+				0EE8F61910A3EB3300DD8EBA /* gearpressed.tiff */,
+				0EE8F60610A3E94400DD8EBA /* pluspressed.tiff */,
+				0EE8F5FA10A3E85300DD8EBA /* plusdir.tiff */,
+				0EE8F50110A3E17600DD8EBA /* bkg.tiff */,
+				0EE8F50210A3E17600DD8EBA /* gear.tiff */,
+				0EE8F50310A3E17600DD8EBA /* plus.tiff */,
 				915AD3DA0ED9E2070017679A /* InfoPlist.strings */,
 				915AD4180ED9E2070017679A /* Preferences.xib */,
 				915AD4190ED9E2070017679A /* projectplus.tiff */,
@@ -340,6 +370,16 @@
 				915AD42B0ED9E2070017679A /* InfoPlist.strings in Resources */,
 				915AD4600ED9E2070017679A /* Preferences.xib in Resources */,
 				915AD4610ED9E2070017679A /* projectplus.tiff in Resources */,
+				0EE8F50410A3E17600DD8EBA /* bkg.tiff in Resources */,
+				0EE8F50510A3E17600DD8EBA /* gear.tiff in Resources */,
+				0EE8F50610A3E17600DD8EBA /* plus.tiff in Resources */,
+				0EE8F5FB10A3E85300DD8EBA /* plusdir.tiff in Resources */,
+				0EE8F60710A3E94400DD8EBA /* pluspressed.tiff in Resources */,
+				0EE8F61A10A3EB3300DD8EBA /* gearpressed.tiff in Resources */,
+				0EE8F62D10A3ECE100DD8EBA /* plusdirpressed.tiff in Resources */,
+				0EE8F6B710A3EF5600DD8EBA /* info.tiff in Resources */,
+				0EE8F6B810A3EF5600DD8EBA /* infodisabled.tiff in Resources */,
+				0EE8F6B910A3EF5600DD8EBA /* infopressed.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

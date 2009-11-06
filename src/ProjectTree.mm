@@ -1,4 +1,5 @@
 #import "JRSwizzle.h"
+#import "ProjectPlus.h"
 
 @interface ProjectTree : NSObject
 + (BOOL)preserveTreeState;
@@ -24,13 +25,6 @@
 			if([[treeItem objectForKey:@"subItems"] count])
 				[self expandItems:[item objectForKey:@"children"] inOutlineView:outlineView toState:[treeItem objectForKey:@"subItems"]];
 		}
-		
-		NSScrollView *scrollView = [[outlineView superview] superview];
-		[scrollView setBorderType: NSNoBorder];
-		
-		[outlineView setSelectionHighlightStyle: NSTableViewSelectionHighlightStyleSourceList];
-		[outlineView setRowHeight: 14];
-		[outlineView setIntercellSpacing: (NSSize){3.0, 6.0}];
 	}
 }
 
@@ -43,13 +37,98 @@
 
 	[[self valueForKey:@"outlineView"] reloadData];
 
+	NSOutlineView *outlineView = [self valueForKey:@"outlineView"];
+	
 	NSDictionary *treeState = [[NSDictionary dictionaryWithContentsOfFile:[self valueForKey:@"filename"]] objectForKey:@"treeState"];
 	if(treeState)
 	{
 		NSArray *rootItems         = [self valueForKey:@"rootItems"];
-		NSOutlineView *outlineView = [self valueForKey:@"outlineView"];
 		[self expandItems:rootItems inOutlineView:outlineView toState:treeState];
 	}
+	
+	
+	
+	
+	
+	
+	/***** MARK HUOT ******/
+	
+	// Get the NSScrollView and remove the border
+	NSScrollView *scrollView = [[outlineView superview] superview];
+	[scrollView setBorderType: NSNoBorder];
+	
+	// Switch the NSOutlineView to use `source` styling
+	[outlineView setSelectionHighlightStyle: NSTableViewSelectionHighlightStyleSourceList];
+	[outlineView setRowHeight: 14];
+	[outlineView setIntercellSpacing: (NSSize){3, 6}];
+	
+	// Set the background of the entire window to debug
+	//[[self window] setBackgroundColor:[NSColor blueColor]];
+	
+	// Grab the width of the "drawer" (or project frame)
+	// not sure why we add 24 here, maybe the width of the scroll bar?
+	CGFloat frameWidth = [scrollView frame].size.width;
+	
+	// Create the background image for the icons and make sure it's sized correctly
+	NSString *bkgPath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"bkg" ofType:@"tiff"];
+	NSImage *image = [[NSImage alloc] initByReferencingFile:bkgPath];
+	[image setSize: (NSSize){3000,23}];
+	NSImageView *imageView = [[NSImageView alloc] initWithFrame: [[self window] frame]];
+	[imageView setImage:image];
+	[imageView setFrame:NSMakeRect(0,0,frameWidth+24,23)];
+	[imageView setFrameOrigin:(NSPoint){0,0}];
+	[imageView setAutoresizingMask:NSViewWidthSizable];
+	[imageView setImageScaling:NSScaleNone];
+	
+	// Finally add the background image as the bottom layer
+	NSArray *siblings = [[scrollView superview] subviews];
+	[[scrollView superview] addSubview:imageView positioned:NSWindowBelow relativeTo:[siblings objectAtIndex:0]];
+	
+	// Update the ADD image
+	NSString *plusImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"plus" ofType:@"tiff"];
+	NSImage *plusImage = [[NSImage alloc] initByReferencingFile:plusImagePath];
+	[[siblings objectAtIndex:4] setImage:plusImage];
+	
+	NSString *plusPressedImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"pluspressed" ofType:@"tiff"];
+	NSImage *plusPressedImage = [[NSImage alloc] initByReferencingFile:plusPressedImagePath];
+	[[siblings objectAtIndex:4] setAlternateImage:plusPressedImage];
+	
+	[[siblings objectAtIndex:4] setFrame:(NSRect){0,0,31,23}];
+	
+	// Update the ADD DIR image
+	NSString *plusDirImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"plusdir" ofType:@"tiff"];
+	NSImage *plusDirImage = [[NSImage alloc] initByReferencingFile:plusDirImagePath];
+	[[siblings objectAtIndex:2] setImage:plusDirImage];
+	
+	NSString *plusDirPressedImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"plusdirpressed" ofType:@"tiff"];
+	NSImage *plusDirPressedImage = [[NSImage alloc] initByReferencingFile:plusDirPressedImagePath];
+	[[siblings objectAtIndex:2] setAlternateImage:plusDirPressedImage];
+	
+	[[siblings objectAtIndex:2] setFrame:(NSRect){31,0,31,23}];
+	
+	// Update the GEAR image
+	NSString *gearImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"gear" ofType:@"tiff"];
+	NSImage *gearImage = [[NSImage alloc] initByReferencingFile:gearImagePath];
+	[[siblings objectAtIndex:3] setImage:gearImage];
+	
+	NSString *gearPressedImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"gearpressed" ofType:@"tiff"];
+	NSImage *gearPressedImage = [[NSImage alloc] initByReferencingFile:gearPressedImagePath];
+	[[siblings objectAtIndex:3] setAlternateImage:gearPressedImage];
+	
+	[[siblings objectAtIndex:3] setFrame:(NSRect){62,0,31,23}];
+	
+	// Update the INFO image
+	NSString *infoImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"info" ofType:@"tiff"];
+	NSImage *infoImage = [[NSImage alloc] initByReferencingFile:infoImagePath];
+	[[siblings objectAtIndex:1] setImage:infoImage];
+	
+	NSString *infoPressedImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"infopressed" ofType:@"tiff"];
+	NSImage *infoPressedImage = [[NSImage alloc] initByReferencingFile:infoPressedImagePath];
+	[[siblings objectAtIndex:1] setAlternateImage:infoPressedImage];
+	
+	[[siblings objectAtIndex:1] setFrame:(NSRect){frameWidth-31,0,31,23}];
+	
+	/***** /MARK HUOT ******/
 }
 
 - (NSDictionary*)outlineView:(NSOutlineView*)outlineView stateForItems:(NSArray*)items
