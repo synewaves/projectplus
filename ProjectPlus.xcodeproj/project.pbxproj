@@ -102,7 +102,7 @@
 		915AD4190ED9E2070017679A /* projectplus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = projectplus.tiff; sourceTree = "<group>"; };
 		915AD4D60ED9E6AD0017679A /* OpenWith.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenWith.mm; sourceTree = "<group>"; };
 		915AD4D70ED9E6AD0017679A /* ProjectPlus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectPlus.h; sourceTree = "<group>"; };
-		915AD4D80ED9E6AD0017679A /* ProjectPlus.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProjectPlus.mm; sourceTree = "<group>"; };
+		915AD4D80ED9E6AD0017679A /* ProjectPlus.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProjectPlus.mm; sourceTree = "<group>"; wrapsLines = 1; };
 		915AD4DA0ED9E6AD0017679A /* ProjectTree.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProjectTree.mm; sourceTree = "<group>"; };
 		915AD4DD0ED9E6AD0017679A /* BzrIcons.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BzrIcons.mm; sourceTree = "<group>"; };
 		915AD4DF0ED9E6AD0017679A /* GitIcons.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GitIcons.mm; sourceTree = "<group>"; };

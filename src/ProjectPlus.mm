@@ -5,19 +5,14 @@ NSString* ProjectPlus_redrawRequired = @"ProjectPlus_redrawRequired";
 
 float ToolbarHeightForWindow(NSWindow *window)
 {
-	NSToolbar *toolbar;
-	float toolbarHeight = 0.0;
-	NSRect windowFrame;
-
-	toolbar = [window toolbar];
-
+	NSToolbar *toolbar = [window toolbar];
 	if(toolbar && [toolbar isVisible])
 	{
-		windowFrame   = [NSWindow contentRectForFrameRect:[window frame] styleMask:[window styleMask]];
-		toolbarHeight = NSHeight(windowFrame) - NSHeight([[window contentView] frame]);
+		NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame] styleMask:[window styleMask]];
+		float toolbarHeight = NSHeight(windowFrame) - NSHeight([[window contentView] frame]);
+		return toolbarHeight;
 	}
-
-	return toolbarHeight;
+	else return 0.0;
 }
 
 static const NSString* PROJECTPLUS_PREFERENCES_LABEL = @"Project+";
