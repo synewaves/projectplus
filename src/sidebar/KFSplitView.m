@@ -184,34 +184,14 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
 // If no good cursors can be found, an error is printed and the arrow cursor is used.
 - (void)kfSetupResizeCursors
 {
-    NSImage *isVerticalImage, *isNotVerticalImage;
-
-    if (isVerticalImage = [NSImage imageNamed:@"NSTruthHorizontalResizeCursor"]); // standard Jaguar NSSplitView resize cursor
-    else if  (isVerticalImage = [NSImage imageNamed:@"NSTruthHResizeCursor"]);
-
-    if (isVerticalImage)
-    {
-        kfIsVerticalResizeCursor = [[NSCursor alloc] initWithImage:isVerticalImage
-                                                           hotSpot:NSMakePoint(8,8)];
-    }
-
-    if (isNotVerticalImage = [NSImage imageNamed:@"NSTruthVerticalResizeCursor"]); // standard Jaguar NSSplitView resize cursor
-    else if  (isNotVerticalImage = [NSImage imageNamed:@"NSTruthVResizeCursor"]);
-
-    if (isNotVerticalImage)
-    {
-        kfNotIsVerticalResizeCursor = [[NSCursor alloc] initWithImage:isNotVerticalImage
-                                                           hotSpot:NSMakePoint(8,8)];
-    }
-
     if (kfIsVerticalResizeCursor == nil)
     {
-        kfIsVerticalResizeCursor = [[NSCursor arrowCursor] retain];
+        kfIsVerticalResizeCursor = [[NSCursor resizeLeftRightCursor] retain];
         NSLog(@"Warning - no horizontal resizing cursor located.  Please report this as a bug.");
     }
     if (kfNotIsVerticalResizeCursor == nil)
     {
-        kfNotIsVerticalResizeCursor = [[NSCursor arrowCursor] retain];
+        kfNotIsVerticalResizeCursor = [[NSCursor resizeLeftRightCursor] retain];
         NSLog(@"Warning - no vertical resizing cursor located.  Please report this as a bug.");
     }
 }
