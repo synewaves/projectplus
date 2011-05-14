@@ -271,7 +271,7 @@ struct Colour {
 		int colourCount = sizeof(colours) / sizeof(Colour);
 		for (int index = 0; index < colourCount; index++) {
 			Str255 str = { };
-			NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:(noErr == GetLabel(index, NULL, str) ? [NSString stringWithCString:(char*)str] : colours[index].name)
+			NSMenuItem *item = [[NSMenuItem alloc] initWithTitle: colours[index].name
                                                        action:@selector(setColourLabel:)
                                                 keyEquivalent:@""];
 			[item setTarget:self];
