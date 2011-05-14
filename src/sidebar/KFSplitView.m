@@ -176,6 +176,7 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
     kfNotificationCenter = [NSNotificationCenter defaultCenter];
 
     [self setVertical:[self isVertical]];
+    [self setDividerStyle:NSSplitViewDividerStyleThin];
 }
 
 // Attempts to find cursors to use as kfIsVerticalResizeCursor and kfNotIsVerticalResizeCursor.

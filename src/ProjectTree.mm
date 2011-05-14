@@ -1,5 +1,6 @@
 #import "JRSwizzle.h"
-#import "ProjectPlus.h"
+#import "MHOpenFiles.h"
+#define OakImageAndTextCell      NSClassFromString(@"OakImageAndTextCell")
 
 @interface ProjectTree : NSObject
 + (BOOL)preserveTreeState;
@@ -34,101 +35,116 @@
 
 	if(not [ProjectTree preserveTreeState])
 		return;
-
+    
+    NSArray *rootItems         = [self valueForKey:@"rootItems"];
+    
+    /*NSDictionary *newRoot = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"Files", @"displayName",
+                             rootItems, @"children",
+                             @"18931726348912", @"lastModified",
+                             @"/", @"sourceDirectory",
+                             @".", @"regexFolderFilter",
+                             nil];
+    NSMutableArray *newRootItems = [NSMutableArray arrayWithObject:newRoot];
+    
+    [self setValue:newRootItems forKey:@"rootItems"];*/
+    
 	[[self valueForKey:@"outlineView"] reloadData];
 
-	NSOutlineView *outlineView = [self valueForKey:@"outlineView"];
-	
 	NSDictionary *treeState = [[NSDictionary dictionaryWithContentsOfFile:[self valueForKey:@"filename"]] objectForKey:@"treeState"];
 	if(treeState)
 	{
-		NSArray *rootItems         = [self valueForKey:@"rootItems"];
+		NSOutlineView *outlineView = [self valueForKey:@"outlineView"];
 		[self expandItems:rootItems inOutlineView:outlineView toState:treeState];
 	}
-	
-	
-	
-	
-	
-	
-	/***** MARK HUOT ******/
-	
-	// Get the NSScrollView and remove the border
-	NSScrollView *scrollView = [[outlineView superview] superview];
-	[scrollView setBorderType: NSNoBorder];
-	
-	// Switch the NSOutlineView to use `source` styling
-	[outlineView setSelectionHighlightStyle: NSTableViewSelectionHighlightStyleSourceList];
-	[outlineView setRowHeight: 14];
-	[outlineView setIntercellSpacing: (NSSize){3, 6}];
-	
-	// Set the background of the entire window to debug
-	//[[self window] setBackgroundColor:[NSColor blueColor]];
-	
-	// Grab the width of the "drawer" (or project frame)
-	// not sure why we add 24 here, maybe the width of the scroll bar?
-	CGFloat frameWidth = [scrollView frame].size.width;
-	
-	// Create the background image for the icons and make sure it's sized correctly
-	NSString *bkgPath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"bkg" ofType:@"tiff"];
-	NSImage *image = [[NSImage alloc] initByReferencingFile:bkgPath];
-	[image setSize: (NSSize){3000,23}];
-	NSImageView *imageView = [[NSImageView alloc] initWithFrame: [[self window] frame]];
-	[imageView setImage:image];
-	[imageView setFrame:NSMakeRect(0,0,frameWidth+24,23)];
-	[imageView setFrameOrigin:(NSPoint){0,0}];
-	[imageView setAutoresizingMask:NSViewWidthSizable];
-	[imageView setImageScaling:NSScaleNone];
-	
-	// Finally add the background image as the bottom layer
-	NSArray *siblings = [[scrollView superview] subviews];
-	[[scrollView superview] addSubview:imageView positioned:NSWindowBelow relativeTo:[siblings objectAtIndex:0]];
-	
-	// Update the ADD image
-	NSString *plusImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"plus" ofType:@"tiff"];
-	NSImage *plusImage = [[NSImage alloc] initByReferencingFile:plusImagePath];
-	[[siblings objectAtIndex:4] setImage:plusImage];
-	
-	NSString *plusPressedImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"pluspressed" ofType:@"tiff"];
-	NSImage *plusPressedImage = [[NSImage alloc] initByReferencingFile:plusPressedImagePath];
-	[[siblings objectAtIndex:4] setAlternateImage:plusPressedImage];
-	
-	[[siblings objectAtIndex:4] setFrame:(NSRect){0,0,31,23}];
-	
-	// Update the ADD DIR image
-	NSString *plusDirImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"plusdir" ofType:@"tiff"];
-	NSImage *plusDirImage = [[NSImage alloc] initByReferencingFile:plusDirImagePath];
-	[[siblings objectAtIndex:2] setImage:plusDirImage];
-	
-	NSString *plusDirPressedImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"plusdirpressed" ofType:@"tiff"];
-	NSImage *plusDirPressedImage = [[NSImage alloc] initByReferencingFile:plusDirPressedImagePath];
-	[[siblings objectAtIndex:2] setAlternateImage:plusDirPressedImage];
-	
-	[[siblings objectAtIndex:2] setFrame:(NSRect){31,0,31,23}];
-	
-	// Update the GEAR image
-	NSString *gearImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"gear" ofType:@"tiff"];
-	NSImage *gearImage = [[NSImage alloc] initByReferencingFile:gearImagePath];
-	[[siblings objectAtIndex:3] setImage:gearImage];
-	
-	NSString *gearPressedImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"gearpressed" ofType:@"tiff"];
-	NSImage *gearPressedImage = [[NSImage alloc] initByReferencingFile:gearPressedImagePath];
-	[[siblings objectAtIndex:3] setAlternateImage:gearPressedImage];
-	
-	[[siblings objectAtIndex:3] setFrame:(NSRect){62,0,31,23}];
-	
-	// Update the INFO image
-	NSString *infoImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"info" ofType:@"tiff"];
-	NSImage *infoImage = [[NSImage alloc] initByReferencingFile:infoImagePath];
-	[[siblings objectAtIndex:1] setImage:infoImage];
-	
-	NSString *infoPressedImagePath = [[NSBundle bundleForClass:[ProjectPlus class]] pathForResource:@"infopressed" ofType:@"tiff"];
-	NSImage *infoPressedImage = [[NSImage alloc] initByReferencingFile:infoPressedImagePath];
-	[[siblings objectAtIndex:1] setAlternateImage:infoPressedImage];
-	
-	[[siblings objectAtIndex:1] setFrame:(NSRect){frameWidth-31,0,31,23}];
-	
-	/***** /MARK HUOT ******/
+    
+    // Update File Browser
+    // 
+    // First we need to grab the existing file browser outline view and update its styling
+    // to bring it into this century.
+    NSOutlineView *fileBrowserOutlineView = [self valueForKey:@"outlineView"];
+    [fileBrowserOutlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
+    [fileBrowserOutlineView setRowHeight:14];
+ 	[fileBrowserOutlineView setIntercellSpacing:NSMakeSize(3.0, 6.0)];
+    [fileBrowserOutlineView setAutoresizingMask:NSViewHeightSizable];
+    
+    // Update the Scroll View
+    // 
+    // The file browser is inside an acient scroll view with a pre-aqua border, grab the
+    // scroll view by looking up the view hierarchy so we can axe the border
+    NSScrollView *fileBrowserScrollView = (NSScrollView *)[[fileBrowserOutlineView superview] superview];
+ 	[fileBrowserScrollView setBorderType: NSNoBorder];
+    
+    // Get the Drawer
+    // 
+    // A lot of our dimensions and sizing come from the "drawer" that's no longer a drawer
+    // so localize a variable so we can refer to the drawer a bit more easily
+    NSView *drawer = [fileBrowserScrollView superview];
+    
+    // Fill the Space
+    // 
+    // Update the scrollview to take up the entire drawer by default. As files are opened
+    // this will change and it will get shorter to allow room for the workspace, but by
+    // default the file browser takes up all the space and the open files outline has no
+    // height at all.
+    [fileBrowserScrollView setFrame:NSMakeRect(0, 0, [drawer frame].size.width, [drawer frame].size.height)];
+    
+    // Create the Open Files View
+    //
+    // No IB for plugins so a lot of code here to programatically create a scroll view to
+    // contain the open files view
+    NSRect          scrollFrame = NSMakeRect(0.0, [drawer frame].size.height, [drawer frame].size.width, 0.0);
+    NSScrollView*   newScrollView  = [[[NSScrollView alloc] initWithFrame:scrollFrame] autorelease];
+    [newScrollView setVerticalScroller:NO];
+    [newScrollView setHorizontalScroller:NO];
+    [newScrollView setBorderType:NSNoBorder];
+    [newScrollView setAutohidesScrollers:YES];
+    [newScrollView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
+    
+    NSRect          clipViewBounds  = [[newScrollView contentView] bounds];
+    NSOutlineView*    openFiles     = [[[NSOutlineView alloc] initWithFrame:clipViewBounds] autorelease];
+    [openFiles setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
+    [openFiles setRowHeight:14];
+ 	[openFiles setIntercellSpacing:NSMakeSize(3.0, 6.0)];
+    [openFiles setHeaderView:nil];
+    [openFiles setFocusRingType:NSFocusRingTypeNone];
+    [openFiles setAutoresizingMask:NSViewWidthSizable];
+    
+    id cell = [[OakImageAndTextCell alloc] init];
+    [cell setFont:[NSFont fontWithName:@"Lucida Grande" size:11.0]];
+    
+    NSTableColumn*  firstColumn     = [[[NSTableColumn alloc] initWithIdentifier:@"firstColumn"] autorelease];
+    [[firstColumn headerCell] setStringValue:@"First Column"];
+    [firstColumn setResizingMask:NSTableColumnAutoresizingMask];
+    [firstColumn setWidth:[drawer frame].size.width];
+    [firstColumn setDataCell:cell];
+    [openFiles addTableColumn:firstColumn];
+    [openFiles setOutlineTableColumn:firstColumn];
+    
+    MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
+    [openFiles setDataSource:openFilesClass];
+    [openFiles setDelegate:openFilesClass];
+    [openFilesClass setOutlineView:openFiles];
+    [openFilesClass setFileBrowserView:[self valueForKey:@"outlineView"]];
+    
+    [newScrollView setDocumentView:openFiles];
+    [drawer addSubview:newScrollView];
+    
+    // Add the shadow
+    //
+    // The shadow actually sits on top of everything. Normally this is bad because it won't allow
+	// clickthrough, however, in our case we don't really care because projects always have a
+	// folder up top that doesn't do anything anyway.
+    NSImageView *imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, [drawer frame].size.height+17, 200, 17)];
+    [imageView setImage:[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:NSClassFromString(@"ProjectPlus")] pathForResource:@"shadow" ofType:@"tiff"]]];
+    [drawer addSubview:imageView];
+    
+    // Let our class know where the imageView is so it can be moved around as the
+    // open file list changes
+    [openFilesClass setImageView:imageView];
+    
+    // eventually remove the ugly buttons, for now they just get covered by the scroll view though
+    // NSArray *subviews = [[scrollView superview] subviews];
 }
 
 - (NSDictionary*)outlineView:(NSOutlineView*)outlineView stateForItems:(NSArray*)items
@@ -163,6 +179,43 @@
 	}
 	return result;
 }
+
+- (void)ProjectTree_outlineView:(id)outlineView willDisplayCell:(id)cell forTableColumn:(id)column item:(NSDictionary *)item
+{
+    NSString *path = [item objectForKey:@"filename"];
+    if (!path)
+    {
+        path = [item objectForKey:@"sourceDirectory"];
+    }
+    
+    if ([[item objectForKey:@"displayName"] isEqualTo:@"Files"])
+    {
+        [cell setImage:nil];
+        return;
+    }
+    
+    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
+    [icon setSize:NSMakeSize(16.0, 16.0)];
+    [cell setImage:icon];
+}
+
+- (void)ProjectTree_tabBarView:(id)arg1 didOpenTab:(id)tab
+{
+    MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
+    [openFilesClass addFile:[tab identifier]];
+    
+    [self valueForKey:@"showTabBarView"]?@"YES":@"NO";
+}
+- (void)ProjectTree_tabBarView:(id)arg1 didCloseTab:(id)tab
+{
+    MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
+    [openFilesClass removeFile:[tab identifier]];
+}
+
+// can't override this because important things happen that we don't want to have to recreate
+- (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)arg2 { /* ... */ }
+
+
 @end
 
 @implementation ProjectTree
@@ -174,6 +227,12 @@
 
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(ProjectTree_windowDidLoad) error:NULL];
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(writeToFile:) withMethod:@selector(ProjectTree_writeToFile:) error:NULL];
+    [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(outlineView:willDisplayCell:forTableColumn:item:) withMethod:@selector(ProjectTree_outlineView:willDisplayCell:forTableColumn:item:) error:NULL];
+    [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didOpenTab:) withMethod:@selector(ProjectTree_tabBarView:didOpenTab:) error:NULL];
+    [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didCloseTab:) withMethod:@selector(ProjectTree_tabBarView:didCloseTab:) error:NULL];
+    
+    // can't override this because important things happen that we don't want to have to recreate
+    // [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didSelectTab:) withMethod:@selector(ProjectTree_tabBarView:didSelectTab:) error:NULL];
 }
 
 + (BOOL)preserveTreeState;

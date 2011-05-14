@@ -29,13 +29,13 @@
 		NSRect fromRect;
 		NSImage* image    = [CWTMSplitView horizontalGradientImage];
 		fromRect.size     = [image size];
-		fromRect.origin.x = 0;
+		fromRect.origin.x = 1;
 		fromRect.origin.y = 0;
 		fromRect.size.width--;
 
 		[image drawInRect:rect fromRect:fromRect operation:NSCompositeCopy fraction:1.0];
 	}
-	/*[super drawDividerInRect:rect];*/
+	[super drawDividerInRect:rect];
 }
 
 - (float)dividerThickness
