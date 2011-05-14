@@ -20,7 +20,7 @@ struct item_sort_descriptor
 	BOOL folders_on_top;
 };
 
-int sort_items(id a, id b, void *context)
+NSInteger sort_items(id a, id b, void *context)
 {
 	item_sort_descriptor *sortDescriptor = (item_sort_descriptor*)context;
 	NSString *aText = [a objectForKey:@"displayName"];

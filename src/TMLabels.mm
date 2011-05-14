@@ -13,11 +13,11 @@
 + (void)drawLabelIndex:(int)colourIndex inRect:(NSRect)rect;
 @end
 
-void Interpolate (void* info, float const* inData, float *outData)
+void Interpolate (void* info, CGFloat const* inData, CGFloat *outData)
 {
    NSColor** cols = (NSColor**)info;
 
-   float from[4], to[4];
+   CGFloat from[4], to[4];
    [cols[0] getComponents:&from[0]];
    [cols[1] getComponents:&to[0]];
 

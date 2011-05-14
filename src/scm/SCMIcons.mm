@@ -122,7 +122,7 @@ static SCMIcons* SharedInstance;
 		
 		delegates = [[NSMutableArray alloc] initWithCapacity:1];
 
-		[NSWindowPoser poseAsClass:[NSWindow class]];
+        //[NSWindowPoser poseAsClass:[NSWindow class]];
 
 		[self loadIconPacks];
 
