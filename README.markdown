@@ -1,3 +1,3 @@
-![Screen Shot](http://github.com/markhuot/projectplus/raw/master/releases/shot.png)
+![Screen Shot](http://markhuot.github.com/projectplus/shot.png)
 
 An updated version ready for Lion.
