@@ -1,5 +1,6 @@
 #import "JRSwizzle.h"
 #import "MHOpenFiles.h"
+#import "MHDividerView.h"
 #define OakImageAndTextCell      NSClassFromString(@"OakImageAndTextCell")
 
 @interface ProjectTree : NSObject
@@ -130,18 +131,16 @@
     [newScrollView setDocumentView:openFiles];
     [drawer addSubview:newScrollView];
     
-    // Add the shadow
+    // Add the divider
     //
-    // The shadow actually sits on top of everything. Normally this is bad because it won't allow
-	// clickthrough, however, in our case we don't really care because projects always have a
-	// folder up top that doesn't do anything anyway.
-    NSImageView *imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, [drawer frame].size.height+17, 200, 17)];
-    [imageView setImage:[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:NSClassFromString(@"ProjectPlus")] pathForResource:@"shadow" ofType:@"tiff"]]];
-    [drawer addSubview:imageView];
+    // 
+    NSView *dividerView = [[MHDividerView alloc] initWithFrame:NSMakeRect(0, 0, [drawer frame].size.width, 2.0)];
+    [dividerView setAutoresizingMask:NSViewWidthSizable];
+    [drawer addSubview:dividerView];
     
-    // Let our class know where the imageView is so it can be moved around as the
+    // Let our class know where the divider is so it can be moved around as the
     // open file list changes
-    [openFilesClass setImageView:imageView];
+    [openFilesClass setDividerView:dividerView];
     
     // eventually remove the ugly buttons, for now they just get covered by the scroll view though
     // NSArray *subviews = [[scrollView superview] subviews];
@@ -204,7 +203,8 @@
     MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
     [openFilesClass addFile:[tab identifier]];
     
-    [self valueForKey:@"showTabBarView"]?@"YES":@"NO";
+    //NSLog(@"%@", [self valueForKey:@"showTabBarView"]?@"YES":@"NO");
+    //[self valueForKey:@"tabBarView"];
 }
 - (void)ProjectTree_tabBarView:(id)arg1 didCloseTab:(id)tab
 {
@@ -213,7 +213,7 @@
 }
 
 // can't override this because important things happen that we don't want to have to recreate
-- (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)arg2 { /* ... */ }
+// - (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)arg2 { /* ... */ }
 
 
 @end

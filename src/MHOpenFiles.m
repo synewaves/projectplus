@@ -54,9 +54,9 @@ static NSMutableArray *objectList = NULL;
     fileBrowserView = theFileBrowserView;
 }
 
-- (void)setImageView:(NSImageView *)theImageView
+- (void)setDividerView:(NSView *)theDividerView
 {
-    imageView = theImageView;
+    dividerView = theDividerView;
 }
 
 - (id)tabView
@@ -141,7 +141,7 @@ static NSMutableArray *objectList = NULL;
     
     [[[[fileBrowserView superview] superview] animator] setFrameSize:NSMakeSize(w, [drawerView frame].size.height - neededHeight)];
     
-    [[imageView animator] setFrameOrigin:NSMakePoint(0, [drawerView frame].size.height - neededHeight - 17)];
+    [[dividerView animator] setFrameOrigin:NSMakePoint(0, [drawerView frame].size.height - neededHeight)];
 }
 
 - (void)dealloc

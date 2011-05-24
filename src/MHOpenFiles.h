@@ -12,7 +12,7 @@
     NSMutableArray *openFiles;
     NSOutlineView *outlineView;
     NSOutlineView *fileBrowserView;
-    NSImageView *imageView;
+    NSView *dividerView;
     id tabView;
 }
 
@@ -21,7 +21,7 @@
 
 - (void)setOutlineView:(NSOutlineView *)theOutlineView;
 - (void)setFileBrowserView:(NSOutlineView *)theFileBrowserView;
-- (void)setImageView:(NSImageView *)theImageView;
+- (void)setDividerView:(NSView *)theDividerView;
 
 - (id)tabView;
 - (void)setTabView:(id)theTabView;

@@ -10,6 +10,7 @@
 		0E70FE8D137F359E00804EB9 /* MHOpenFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E70FE8C137F359E00804EB9 /* MHOpenFiles.m */; };
 		0E70FE8F137F35FE00804EB9 /* shadow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 0E70FE8E137F35FE00804EB9 /* shadow.tiff */; };
 		0E70FE91137F3BB800804EB9 /* FossilIcons.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E70FE90137F3BB800804EB9 /* FossilIcons.mm */; };
+		0E8A934A138C20150044F2D2 /* MHDividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A9349138C20150044F2D2 /* MHDividerView.m */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		911112540E5C8AF900BF76B4 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911112530E5C8AF900BF76B4 /* Sparkle.framework */; };
 		9111129C0E5C8D9000BF76B4 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 911112530E5C8AF900BF76B4 /* Sparkle.framework */; };
@@ -74,6 +75,8 @@
 		0E70FE8C137F359E00804EB9 /* MHOpenFiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHOpenFiles.m; sourceTree = "<group>"; };
 		0E70FE8E137F35FE00804EB9 /* shadow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = shadow.tiff; sourceTree = "<group>"; };
 		0E70FE90137F3BB800804EB9 /* FossilIcons.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FossilIcons.mm; sourceTree = "<group>"; };
+		0E8A9348138C20150044F2D2 /* MHDividerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHDividerView.h; sourceTree = "<group>"; };
+		0E8A9349138C20150044F2D2 /* MHDividerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHDividerView.m; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B6048680CD000E48DA /* ProjectPlus.tmplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectPlus.tmplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		911112530E5C8AF900BF76B4 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
@@ -234,6 +237,8 @@
 				915AD4EE0ED9E6AD0017679A /* Sorting.mm */,
 				915AD4F00ED9E6AD0017679A /* TMLabels.mm */,
 				915AD4F10ED9E6AD0017679A /* Tooltips.mm */,
+				0E8A9348138C20150044F2D2 /* MHDividerView.h */,
+				0E8A9349138C20150044F2D2 /* MHDividerView.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -413,6 +418,7 @@
 				915AD5100ED9E7170017679A /* JRSwizzle.m in Sources */,
 				0E70FE8D137F359E00804EB9 /* MHOpenFiles.m in Sources */,
 				0E70FE91137F3BB800804EB9 /* FossilIcons.mm in Sources */,
+				0E8A934A138C20150044F2D2 /* MHDividerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
