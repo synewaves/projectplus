@@ -134,8 +134,8 @@
     // Add the divider
     //
     // 
-    NSView *dividerView = [[MHDividerView alloc] initWithFrame:NSMakeRect(0, 0, [drawer frame].size.width, 2.0)];
-    [dividerView setAutoresizingMask:NSViewWidthSizable];
+    NSView *dividerView = [[MHDividerView alloc] initWithFrame:NSMakeRect(-[drawer frame].size.width, 0, [drawer frame].size.width, 2.0)];
+    [dividerView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
     [drawer addSubview:dividerView];
     
     // Let our class know where the divider is so it can be moved around as the
