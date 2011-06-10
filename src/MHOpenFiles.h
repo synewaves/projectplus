@@ -16,6 +16,8 @@
     id tabView;
 }
 
++ (MHOpenFiles *)sharedInstance;
+
 + (id)objectForTabs:(id)theTabs;
 - (id)initForTabs:(id)theTabs;
 
@@ -30,5 +32,7 @@
 - (void)removeFile:(NSString *)path;
 
 - (void)resizeViews;
+
+- (void)selectFile:(NSString *)path;
 
 @end

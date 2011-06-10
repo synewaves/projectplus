@@ -1,6 +1,7 @@
 #import "JRSwizzle.h"
 #import "MHOpenFiles.h"
 #import "MHDividerView.h"
+#import "MHOutlineView.h"
 #define OakImageAndTextCell      NSClassFromString(@"OakImageAndTextCell")
 
 @interface ProjectTree : NSObject
@@ -39,8 +40,8 @@
     
     NSArray *rootItems         = [self valueForKey:@"rootItems"];
     
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
+    //[[NSUserDefaults standardUserDefaults] synchronize];
     
     /*NSDictionary *newRoot = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"Files", @"displayName",
@@ -106,7 +107,7 @@
     [newScrollView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
     
     NSRect          clipViewBounds  = [[newScrollView contentView] bounds];
-    NSOutlineView*    openFiles     = [[[NSOutlineView alloc] initWithFrame:clipViewBounds] autorelease];
+    MHOutlineView    *openFiles     = [[[MHOutlineView alloc] initWithFrame:clipViewBounds] autorelease];
     [openFiles setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
     [openFiles setRowHeight:14];
  	[openFiles setIntercellSpacing:NSMakeSize(3.0, 6.0)];
@@ -137,7 +138,7 @@
     // Add the divider
     //
     // 
-    NSView *dividerView = [[MHDividerView alloc] initWithFrame:NSMakeRect(-[drawer frame].size.width, 0, [drawer frame].size.width, 2.0)];
+    NSView *dividerView = [[MHDividerView alloc] initWithFrame:NSMakeRect(0, [drawer frame].size.height+2, [drawer frame].size.width, 2.0)];
     [dividerView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
     [drawer addSubview:dividerView];
     
@@ -203,20 +204,25 @@
 
 - (void)ProjectTree_tabBarView:(id)arg1 didOpenTab:(id)tab
 {
+    [self ProjectTree_tabBarView:arg1 didOpenTab:tab];
+    
     MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
     [openFilesClass addFile:[tab identifier]];
-    
-    //NSLog(@"%@", [self valueForKey:@"showTabBarView"]?@"YES":@"NO");
-    //[self valueForKey:@"tabBarView"];
 }
 - (void)ProjectTree_tabBarView:(id)arg1 didCloseTab:(id)tab
 {
+    [self ProjectTree_tabBarView:arg1 didOpenTab:tab];
+    
     MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
     [openFilesClass removeFile:[tab identifier]];
 }
 
-// can't override this because important things happen that we don't want to have to recreate
-// - (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)arg2 { /* ... */ }
+- (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)arg2
+{
+    [self ProjectTree_tabBarView:arg1 didSelectTab:arg2];
+    
+    [[MHOpenFiles sharedInstance] selectFile:[arg2 identifier]];
+}
 
 
 @end
@@ -233,9 +239,7 @@
     [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(outlineView:willDisplayCell:forTableColumn:item:) withMethod:@selector(ProjectTree_outlineView:willDisplayCell:forTableColumn:item:) error:NULL];
     [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didOpenTab:) withMethod:@selector(ProjectTree_tabBarView:didOpenTab:) error:NULL];
     [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didCloseTab:) withMethod:@selector(ProjectTree_tabBarView:didCloseTab:) error:NULL];
-    
-    // can't override this because important things happen that we don't want to have to recreate
-    // [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didSelectTab:) withMethod:@selector(ProjectTree_tabBarView:didSelectTab:) error:NULL];
+    [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didSelectTab:) withMethod:@selector(ProjectTree_tabBarView:didSelectTab:) error:NULL];
 }
 
 + (BOOL)preserveTreeState;

@@ -10,7 +10,18 @@
 
 @implementation MHOpenFiles
 
+static MHOpenFiles *sharedInstance;
 static NSMutableArray *objectList = NULL;
+
++ (MHOpenFiles *)sharedInstance
+{
+    if (!sharedInstance)
+    {
+        sharedInstance = [MHOpenFiles new];
+    }
+    
+    return sharedInstance;
+}
 
 + (id)objectForTabs:(id)theTabs
 {
@@ -29,6 +40,12 @@ static NSMutableArray *objectList = NULL;
     
     MHOpenFiles *obj = [[MHOpenFiles alloc] initForTabs:theTabs];
     [objectList addObject:obj];
+    
+    if (!sharedInstance)
+    {
+        sharedInstance = obj;
+    }
+    
     return obj;
 }
 
@@ -46,6 +63,7 @@ static NSMutableArray *objectList = NULL;
 - (void)setOutlineView:(NSOutlineView *)theOutlineView
 {
     outlineView = theOutlineView;
+    [outlineView setIndentationPerLevel:0.0];
     [outlineView expandItem:[outlineView itemAtRow:0]];
 }
 
@@ -83,21 +101,45 @@ static NSMutableArray *objectList = NULL;
     [self resizeViews];
 }
 
+- (void)selectFile:(NSString *)path
+{
+    int len = [openFiles count];
+    int i = 0;
+    for (i; i<len; i++)
+    {
+        NSString *filePath = [openFiles objectAtIndex:i];
+        if ([path isEqualToString:filePath])
+        {
+            [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:(i+1)] byExtendingSelection:NO];
+        }
+    }
+}
+
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    return [openFiles count];
+    return (item == nil) ? 1 : [openFiles count];
 }
 
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return NO;
+    return (item == @"WORKSPACE") ? YES : NO;
 }
 
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     
-    return (item == nil) ? [openFiles objectAtIndex:index] : nil;
+    return (item == nil) ? @"WORKSPACE" : [openFiles objectAtIndex:index];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
+{
+    return (item == @"WORKSPACE") ? YES : NO;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
+{
+    return (item == @"WORKSPACE") ? NO : YES;
 }
 
 
@@ -109,9 +151,17 @@ static NSMutableArray *objectList = NULL;
 
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:item];
-    [icon setSize:NSMakeSize(16.0, 16.0)];
-    [cell setImage:icon];
+    if (item == @"WORKSPACE")
+    {
+        [cell setImage:nil];
+    }
+    
+    else
+    {
+        NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:item];
+        [icon setSize:NSMakeSize(16.0, 16.0)];
+        [cell setImage:icon];
+    }
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
@@ -129,7 +179,7 @@ static NSMutableArray *objectList = NULL;
 
 - (void)resizeViews
 {
-    float neededHeight = ([outlineView numberOfRows] * [outlineView rowHeight]) + (6.0 * [outlineView numberOfRows]);
+    float neededHeight = ([outlineView numberOfRows] * [outlineView rowHeight]) + (6.0 * [outlineView numberOfRows]) + 2.0;
     
     NSView *openFilesCustomView = (NSView *)[[outlineView superview] superview];    
     NSView *drawerView = [openFilesCustomView superview];
