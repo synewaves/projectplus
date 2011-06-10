@@ -40,8 +40,8 @@
     
     NSArray *rootItems         = [self valueForKey:@"rootItems"];
     
-    //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
-    //[[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     /*NSDictionary *newRoot = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"Files", @"displayName",

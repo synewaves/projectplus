@@ -189,7 +189,7 @@ static NSMutableArray *objectList = NULL;
 	[[openFilesCustomView animator] setFrame:NSMakeRect(0.0, y, w, neededHeight)];
     
     //[[[[fileBrowserView superview] superview] animator] setFrameSize:NSMakeSize(w, [drawerView frame].size.height - neededHeight - 2.0)];
-    [[[[fileBrowserView superview] superview] animator] setFrame:NSMakeRect(0, 20, w, [drawerView frame].size.height - neededHeight - 20.0 - 2.0)];
+    [[[[fileBrowserView superview] superview] animator] setFrame:NSMakeRect(0, 0, w, [drawerView frame].size.height - neededHeight - 2.0)];
     
     [[dividerView animator] setFrameOrigin:NSMakePoint(0, [drawerView frame].size.height - neededHeight - 2.0)];
 }
