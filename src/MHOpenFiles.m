@@ -60,10 +60,13 @@ static NSMutableArray *objectList = NULL;
     return self;
 }
 
+#define MyPrivateTableViewDataType @"MyPrivateTableViewDataType"
+
 - (void)setOutlineView:(NSOutlineView *)theOutlineView
 {
     outlineView = theOutlineView;
     [outlineView setIndentationPerLevel:0.0];
+    [outlineView registerForDraggedTypes: [NSArray arrayWithObject:MyPrivateTableViewDataType]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
 }
 
@@ -175,6 +178,29 @@ static NSMutableArray *objectList = NULL;
 	// get object
 	id item = [outlineView itemAtRow:[outlineView selectedRow]];
     [tabView selectTabWithIdentifier:item];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pasteboard
+{
+    //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+    [pasteboard declareTypes:[NSArray arrayWithObject:MyPrivateTableViewDataType] owner:self];
+    //[pboard setData:data forType:MyPrivateTableViewDataType];
+    return YES;
+}
+
+- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id<NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
+{
+    if ([item isEqualToString:@"WORKSPACE"])
+    {
+        return NSDragOperationMove;
+    }
+    
+    return NSDragOperationNone;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id<NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
+{
+    return YES;
 }
 
 - (void)resizeViews
