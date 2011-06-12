@@ -173,6 +173,7 @@
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithBool:YES],@"ProjectPlus Sidebar Enabled",
 			[NSNumber numberWithBool:NO], @"ProjectPlus Sidebar on Right",
+            [NSNumber numberWithBool:YES], @"ProjectPlus Workspace",
 			nil]];
 
 	[OakProjectController jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(SideBarSwitching_windowDidLoad) error:NULL];

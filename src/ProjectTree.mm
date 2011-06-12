@@ -6,6 +6,7 @@
 
 @interface ProjectTree : NSObject
 + (BOOL)preserveTreeState;
++ (BOOL)useWorkspace;
 @end
 
 @implementation NSWindowController (OakProjectController)
@@ -39,9 +40,6 @@
 		return;
     
     NSArray *rootItems         = [self valueForKey:@"rootItems"];
-    
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     
     /*NSDictionary *newRoot = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"Files", @"displayName",
@@ -94,57 +92,60 @@
     // height at all.
     [fileBrowserScrollView setFrame:NSMakeRect(0, 0, [drawer frame].size.width, [drawer frame].size.height)];
     
-    // Create the Open Files View
-    //
-    // No IB for plugins so a lot of code here to programatically create a scroll view to
-    // contain the open files view
-    NSRect          scrollFrame = NSMakeRect(0.0, [drawer frame].size.height, [drawer frame].size.width, 0.0);
-    NSScrollView*   newScrollView  = [[[NSScrollView alloc] initWithFrame:scrollFrame] autorelease];
-    [newScrollView setVerticalScroller:NO];
-    [newScrollView setHorizontalScroller:NO];
-    [newScrollView setBorderType:NSNoBorder];
-    [newScrollView setAutohidesScrollers:YES];
-    [newScrollView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
+    if ([ProjectTree useWorkspace])
+    {
+        // Create the Open Files View
+        //
+        // No IB for plugins so a lot of code here to programatically create a scroll view to
+        // contain the open files view
+        NSRect          scrollFrame = NSMakeRect(0.0, [drawer frame].size.height, [drawer frame].size.width, 0.0);
+        NSScrollView*   newScrollView  = [[[NSScrollView alloc] initWithFrame:scrollFrame] autorelease];
+        [newScrollView setVerticalScroller:NO];
+        [newScrollView setHorizontalScroller:NO];
+        [newScrollView setBorderType:NSNoBorder];
+        [newScrollView setAutohidesScrollers:YES];
+        [newScrollView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
     
-    NSRect          clipViewBounds  = [[newScrollView contentView] bounds];
-    MHOutlineView    *openFiles     = [[[MHOutlineView alloc] initWithFrame:clipViewBounds] autorelease];
-    [openFiles setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
-    [openFiles setRowHeight:14];
- 	[openFiles setIntercellSpacing:NSMakeSize(3.0, 6.0)];
-    [openFiles setHeaderView:nil];
-    [openFiles setFocusRingType:NSFocusRingTypeNone];
-    [openFiles setAutoresizingMask:NSViewWidthSizable];
+        NSRect          clipViewBounds  = [[newScrollView contentView] bounds];
+        MHOutlineView    *openFiles     = [[[MHOutlineView alloc] initWithFrame:clipViewBounds] autorelease];
+        [openFiles setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
+        [openFiles setRowHeight:14];
+        [openFiles setIntercellSpacing:NSMakeSize(3.0, 6.0)];
+        [openFiles setHeaderView:nil];
+        [openFiles setFocusRingType:NSFocusRingTypeNone];
+        [openFiles setAutoresizingMask:NSViewWidthSizable];
     
-    id cell = [[OakImageAndTextCell alloc] init];
-    [cell setFont:[NSFont fontWithName:@"Lucida Grande" size:11.0]];
+        id cell = [[OakImageAndTextCell alloc] init];
+        [cell setFont:[NSFont fontWithName:@"Lucida Grande" size:11.0]];
     
-    NSTableColumn*  firstColumn     = [[[NSTableColumn alloc] initWithIdentifier:@"firstColumn"] autorelease];
-    [[firstColumn headerCell] setStringValue:@"First Column"];
-    [firstColumn setResizingMask:NSTableColumnAutoresizingMask];
-    [firstColumn setWidth:[drawer frame].size.width];
-    [firstColumn setDataCell:cell];
-    [openFiles addTableColumn:firstColumn];
-    [openFiles setOutlineTableColumn:firstColumn];
+        NSTableColumn*  firstColumn     = [[[NSTableColumn alloc] initWithIdentifier:@"firstColumn"] autorelease];
+        [[firstColumn headerCell] setStringValue:@"First Column"];
+        [firstColumn setResizingMask:NSTableColumnAutoresizingMask];
+        [firstColumn setWidth:[drawer frame].size.width];
+        [firstColumn setDataCell:cell];
+        [openFiles addTableColumn:firstColumn];
+        [openFiles setOutlineTableColumn:firstColumn];
     
-    MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
-    [openFiles setDataSource:openFilesClass];
-    [openFiles setDelegate:openFilesClass];
-    [openFilesClass setOutlineView:openFiles];
-    [openFilesClass setFileBrowserView:[self valueForKey:@"outlineView"]];
+        MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
+        [openFiles setDataSource:openFilesClass];
+        [openFiles setDelegate:openFilesClass];
+        [openFilesClass setOutlineView:openFiles];
+        [openFilesClass setFileBrowserView:[self valueForKey:@"outlineView"]];
     
-    [newScrollView setDocumentView:openFiles];
-    [drawer addSubview:newScrollView];
+        [newScrollView setDocumentView:openFiles];
+        [drawer addSubview:newScrollView];
     
-    // Add the divider
-    //
-    // 
-    NSView *dividerView = [[MHDividerView alloc] initWithFrame:NSMakeRect(0, [drawer frame].size.height+2, [drawer frame].size.width, 2.0)];
-    [dividerView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
-    [drawer addSubview:dividerView];
+        // Add the divider
+        //
+        // 
+        NSView *dividerView = [[MHDividerView alloc] initWithFrame:NSMakeRect(0, [drawer frame].size.height+2, [drawer frame].size.width, 2.0)];
+        [dividerView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
+        [drawer addSubview:dividerView];
     
-    // Let our class know where the divider is so it can be moved around as the
-    // open file list changes
-    [openFilesClass setDividerView:dividerView];
+        // Let our class know where the divider is so it can be moved around as the
+        // open file list changes
+        [openFilesClass setDividerView:dividerView];
+    }
     
     // eventually remove the ugly buttons, for now they just get covered by the scroll view though
     // NSArray *subviews = [[scrollView superview] subviews];
@@ -231,19 +232,38 @@
 + (void)load
 {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-																					[NSNumber numberWithBool:YES],@"ProjectPlus Preserve Tree",
-																					nil]];
+        [NSNumber numberWithBool:YES],@"ProjectPlus Preserve Tree",
+        [NSNumber numberWithBool:YES], @"ProjectPlus Workspace",
+		nil]];
 
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(ProjectTree_windowDidLoad) error:NULL];
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(writeToFile:) withMethod:@selector(ProjectTree_writeToFile:) error:NULL];
     [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(outlineView:willDisplayCell:forTableColumn:item:) withMethod:@selector(ProjectTree_outlineView:willDisplayCell:forTableColumn:item:) error:NULL];
-    [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didOpenTab:) withMethod:@selector(ProjectTree_tabBarView:didOpenTab:) error:NULL];
-    [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didCloseTab:) withMethod:@selector(ProjectTree_tabBarView:didCloseTab:) error:NULL];
-    [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didSelectTab:) withMethod:@selector(ProjectTree_tabBarView:didSelectTab:) error:NULL];
+    
+    // toggle workspace vs. tabs
+    if ([ProjectTree useWorkspace])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didOpenTab:) withMethod:@selector(ProjectTree_tabBarView:didOpenTab:) error:NULL];
+        [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didCloseTab:) withMethod:@selector(ProjectTree_tabBarView:didCloseTab:) error:NULL];
+        [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didSelectTab:) withMethod:@selector(ProjectTree_tabBarView:didSelectTab:) error:NULL];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"OakProjectWindowShowTabBarEnabled"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 + (BOOL)preserveTreeState;
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"ProjectPlus Preserve Tree"];
+}
+
++ (BOOL)useWorkspace;
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"ProjectPlus Workspace"];
 }
 @end
