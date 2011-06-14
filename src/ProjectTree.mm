@@ -55,9 +55,9 @@
                              nil];
     NSMutableArray *newRootItems = [NSMutableArray arrayWithObject:newRoot];
     
-    [self setValue:newRootItems forKey:@"rootItems"];*/
+    [self setValue:newRootItems forKey:@"rootItems"];
     
-	[[self valueForKey:@"outlineView"] reloadData];
+	[[self valueForKey:@"outlineView"] reloadData];*/
 
 	NSDictionary *treeState = [[NSDictionary dictionaryWithContentsOfFile:[self valueForKey:@"filename"]] objectForKey:@"treeState"];
 	if(treeState)
