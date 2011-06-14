@@ -32,11 +32,6 @@
 	}
 }
 
-/*
- add full screen btn
- http://git.chromium.org/gitweb/?p=chromium.git;a=commitdiff;h=a9a0528306a7a1e43bea6534792d9d7ee7ee9981
-*/
-
 - (void)ProjectTree_windowDidLoad
 {
 	[self ProjectTree_windowDidLoad];
