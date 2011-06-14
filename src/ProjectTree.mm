@@ -44,12 +44,10 @@
 	if(not [ProjectTree preserveTreeState])
 		return;
     
-    [[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationFullScreen];
-    
+#if MAC_OS_X_VERSION_MIN_REQUIRED == MAC_OS_X_VERSION_10_7
     NSWindow *window = [self window];
-    NSButton* fullscreenButton = [window standardWindowButton:NSWindowFullScreenButton];
-    //[fullscreenButton setAction:@selector(enterFullscreen:)];
-    //[fullscreenButton setTarget:self];
+    [window setCollectionBehavior:([window collectionBehavior] | NSWindowCollectionBehaviorFullScreenPrimary)];
+#endif
     
     NSArray *rootItems         = [self valueForKey:@"rootItems"];
     
