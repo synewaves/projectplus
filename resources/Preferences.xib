@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10J869</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11A459e</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1530</string>
+		<string key="IBDocument.AppKitVersion">1121.2</string>
+		<string key="IBDocument.HIToolboxVersion">557.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1306</string>
+			<string key="NS.object.0">1530</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -72,7 +72,6 @@
 						<string key="NSFrame">{{13, 10}, {422, 256}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="382547034"/>
 						<object class="NSMutableArray" key="NSTabViewItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="NSTabViewItem" id="865866011">
@@ -196,7 +195,6 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{59, -12}, {287.5, 26}}</string>
 											<reference key="NSSuperview" ref="451116678"/>
-											<reference key="NSNextKeyView"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="309721039">
 												<int key="NSCellFlags">67239424</int>
@@ -711,6 +709,7 @@
 															<int key="NSDraggingSourceMaskForNonLocal">0</int>
 															<bool key="NSAllowsTypeSelect">YES</bool>
 															<int key="NSTableViewDraggingDestinationStyle">0</int>
+															<int key="NSTableViewGroupRowStyle">1</int>
 														</object>
 													</object>
 													<string key="NSFrame">{{1, 1}, {218, 55}}</string>
@@ -749,7 +748,7 @@
 											<string key="NSFrame">{{154, 150}, {231, 57}}</string>
 											<reference key="NSSuperview" ref="980884557"/>
 											<reference key="NSNextKeyView" ref="1029611353"/>
-											<int key="NSsFlags">18</int>
+											<int key="NSsFlags">133138</int>
 											<reference key="NSVScroller" ref="903511379"/>
 											<reference key="NSHScroller" ref="693041474"/>
 											<reference key="NSContentView" ref="1029611353"/>
@@ -1012,7 +1011,7 @@
 											<object class="NSButtonCell" key="NSCell" id="543457298">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Defaults…</string>
+												<string key="NSContents">Defaultsâ€¦</string>
 												<reference key="NSSupport" ref="282865970"/>
 												<reference key="NSControlView" ref="399716151"/>
 												<int key="NSButtonFlags">-2038284033</int>
@@ -1050,15 +1049,14 @@
 										<object class="NSTextField" id="524294248">
 											<reference key="NSNextResponder" ref="382547034"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{56, 6}, {295, 28}}</string>
+											<string key="NSFrame">{{56, -8}, {310, 42}}</string>
 											<reference key="NSSuperview" ref="382547034"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="854313440">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">272629760</int>
-												<string key="NSContents">Use workspace in sidebar instead of standard tab view.</string>
+												<string key="NSContents">Use workspace in sidebar instead of standard tab view. (This setting will take affect after restarting TextMate)</string>
 												<reference key="NSSupport" ref="530061995"/>
 												<reference key="NSControlView" ref="524294248"/>
 												<reference key="NSBackgroundColor" ref="646245018"/>
@@ -1149,8 +1147,9 @@
 				<string key="NSWindowTitle">Window</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
+				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="943278790">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1266,11 +1265,11 @@
 						</object>
 					</object>
 					<string key="NSFrame">{{7, 11}, {324, 150}}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="997719337"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
-				<string key="NSMaxSize">{1e+13, 1e+13}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">

@@ -39,6 +39,11 @@
 	if(not [ProjectTree preserveTreeState])
 		return;
     
+#if MAC_OS_X_VERSION_MIN_REQUIRED == MAC_OS_X_VERSION_10_7
+    NSWindow *window = [self window];
+    [window setCollectionBehavior:([window collectionBehavior] | NSWindowCollectionBehaviorFullScreenPrimary)];
+#endif
+    
     NSArray *rootItems         = [self valueForKey:@"rootItems"];
     
     /*NSDictionary *newRoot = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -50,9 +55,9 @@
                              nil];
     NSMutableArray *newRootItems = [NSMutableArray arrayWithObject:newRoot];
     
-    [self setValue:newRootItems forKey:@"rootItems"];*/
+    [self setValue:newRootItems forKey:@"rootItems"];
     
-	[[self valueForKey:@"outlineView"] reloadData];
+	[[self valueForKey:@"outlineView"] reloadData];*/
 
 	NSDictionary *treeState = [[NSDictionary dictionaryWithContentsOfFile:[self valueForKey:@"filename"]] objectForKey:@"treeState"];
 	if(treeState)
@@ -105,7 +110,7 @@
         [newScrollView setBorderType:NSNoBorder];
         [newScrollView setAutohidesScrollers:YES];
         [newScrollView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
-    
+        
         NSRect          clipViewBounds  = [[newScrollView contentView] bounds];
         MHOutlineView    *openFiles     = [[[MHOutlineView alloc] initWithFrame:clipViewBounds] autorelease];
         [openFiles setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
@@ -114,10 +119,10 @@
         [openFiles setHeaderView:nil];
         [openFiles setFocusRingType:NSFocusRingTypeNone];
         [openFiles setAutoresizingMask:NSViewWidthSizable];
-    
+        
         id cell = [[OakImageAndTextCell alloc] init];
         [cell setFont:[NSFont fontWithName:@"Lucida Grande" size:11.0]];
-    
+        
         NSTableColumn*  firstColumn     = [[[NSTableColumn alloc] initWithIdentifier:@"firstColumn"] autorelease];
         [[firstColumn headerCell] setStringValue:@"First Column"];
         [firstColumn setResizingMask:NSTableColumnAutoresizingMask];
@@ -125,16 +130,16 @@
         [firstColumn setDataCell:cell];
         [openFiles addTableColumn:firstColumn];
         [openFiles setOutlineTableColumn:firstColumn];
-    
+        
         MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
         [openFiles setDataSource:openFilesClass];
         [openFiles setDelegate:openFilesClass];
         [openFilesClass setOutlineView:openFiles];
         [openFilesClass setFileBrowserView:[self valueForKey:@"outlineView"]];
-    
+        
         [newScrollView setDocumentView:openFiles];
         [drawer addSubview:newScrollView];
-    
+        
         // Add the divider
         //
         // 
@@ -231,10 +236,11 @@
 @implementation ProjectTree
 + (void)load
 {
-	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithBool:YES],@"ProjectPlus Preserve Tree",
-        [NSNumber numberWithBool:YES], @"ProjectPlus Workspace",
-		nil]];
+	[[NSUserDefaults standardUserDefaults]
+     registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSNumber numberWithBool:YES], @"ProjectPlus Preserve Tree",
+                       [NSNumber numberWithBool:YES], @"ProjectPlus Workspace",
+                       nil]];
 
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(ProjectTree_windowDidLoad) error:NULL];
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(writeToFile:) withMethod:@selector(ProjectTree_writeToFile:) error:NULL];
@@ -250,6 +256,7 @@
         [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didCloseTab:) withMethod:@selector(ProjectTree_tabBarView:didCloseTab:) error:NULL];
         [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didSelectTab:) withMethod:@selector(ProjectTree_tabBarView:didSelectTab:) error:NULL];
     }
+    
     else
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"OakProjectWindowShowTabBarEnabled"];

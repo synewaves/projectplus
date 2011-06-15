@@ -60,10 +60,13 @@ static NSMutableArray *objectList = NULL;
     return self;
 }
 
+#define MyPrivateTableViewDataType @"MyPrivateTableViewDataType"
+
 - (void)setOutlineView:(NSOutlineView *)theOutlineView
 {
     outlineView = theOutlineView;
     [outlineView setIndentationPerLevel:0.0];
+    [outlineView registerForDraggedTypes: [NSArray arrayWithObject:MyPrivateTableViewDataType]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
 }
 
@@ -177,6 +180,29 @@ static NSMutableArray *objectList = NULL;
     [tabView selectTabWithIdentifier:item];
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pasteboard
+{
+    //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+    [pasteboard declareTypes:[NSArray arrayWithObject:MyPrivateTableViewDataType] owner:self];
+    //[pboard setData:data forType:MyPrivateTableViewDataType];
+    return YES;
+}
+
+- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id<NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
+{
+    if ([item isEqualToString:@"WORKSPACE"])
+    {
+        return NSDragOperationMove;
+    }
+    
+    return NSDragOperationNone;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id<NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
+{
+    return YES;
+}
+
 - (void)resizeViews
 {
     float neededHeight = ([outlineView numberOfRows] * [outlineView rowHeight]) + (6.0 * [outlineView numberOfRows]) + 2.0;
@@ -188,7 +214,6 @@ static NSMutableArray *objectList = NULL;
     
 	[[openFilesCustomView animator] setFrame:NSMakeRect(0.0, y, w, neededHeight)];
     
-    //[[[[fileBrowserView superview] superview] animator] setFrameSize:NSMakeSize(w, [drawerView frame].size.height - neededHeight - 2.0)];
     [[[[fileBrowserView superview] superview] animator] setFrame:NSMakeRect(0, 0, w, [drawerView frame].size.height - neededHeight - 2.0)];
     
     [[dividerView animator] setFrameOrigin:NSMakePoint(0, [drawerView frame].size.height - neededHeight - 2.0)];
