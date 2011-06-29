@@ -217,17 +217,18 @@
 }
 - (void)ProjectTree_tabBarView:(id)arg1 didCloseTab:(id)tab
 {
-    [self ProjectTree_tabBarView:arg1 didOpenTab:tab];
+	[self ProjectTree_tabBarView:arg1 didOpenTab:tab];
     
     MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
     [openFilesClass removeFile:[tab identifier]];
 }
 
-- (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)arg2
+- (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)tab
 {
-    [self ProjectTree_tabBarView:arg1 didSelectTab:arg2];
-    
-    [[MHOpenFiles sharedInstance] selectFile:[arg2 identifier]];
+	[self ProjectTree_tabBarView:arg1 didSelectTab:tab];
+	
+	MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
+	[openFilesClass selectFile:[tab identifier]];
 }
 
 

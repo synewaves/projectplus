@@ -103,23 +103,28 @@ static NSMutableArray *objectList = NULL;
 
 - (void)removeFile:(NSString *)path
 {
+	selectedItem = [outlineView itemAtRow:[outlineView selectedRow]];
+	
     [openFiles removeObject:path];
     [outlineView reloadData];
+	
+	[self selectFile:selectedItem];
+	
     [self resizeViews];
 }
 
 - (void)selectFile:(NSString *)path
 {
-    int len = [openFiles count];
+	int len = [outlineView numberOfRows];
     int i = 0;
     for (i; i<len; i++)
     {
-        NSString *filePath = [openFiles objectAtIndex:i];
-        if ([path isEqualToString:filePath])
+		id rowPath = [outlineView itemAtRow:i];
+		if ([path isEqualToString:rowPath])
         {
-            [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:(i+1)] byExtendingSelection:NO];
-        }
-    }
+			[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:i] byExtendingSelection:NO];
+		}
+	}
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -192,6 +197,7 @@ static NSMutableArray *objectList = NULL;
 		}
 		
 		draggedIndex = [outlineView rowForItem:item]-1;
+		selectedItem = [outlineView itemAtRow:[outlineView selectedRow]];
 	}
 	
     //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
@@ -225,6 +231,8 @@ static NSMutableArray *objectList = NULL;
 
 	
 	[outlineView reloadData];
+	
+	[self selectFile:selectedItem];
 	
     return YES;
 }

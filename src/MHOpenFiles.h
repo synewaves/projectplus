@@ -15,6 +15,7 @@
     NSView *dividerView;
     id tabView;
 	NSInteger draggedIndex;
+	id *selectedItem;
 }
 
 + (MHOpenFiles *)sharedInstance;
