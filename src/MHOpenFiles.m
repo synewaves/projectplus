@@ -65,7 +65,11 @@ static NSMutableArray *objectList = NULL;
 - (void)setOutlineView:(NSOutlineView *)theOutlineView
 {
     outlineView = theOutlineView;
-    [outlineView setIndentationPerLevel:0.0];
+	
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_7
+	[outlineView setIndentationPerLevel:0.0];
+#endif
+    
     [outlineView registerForDraggedTypes: [NSArray arrayWithObject:MyPrivateTableViewDataType]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
 }
@@ -182,6 +186,14 @@ static NSMutableArray *objectList = NULL;
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pasteboard
 {
+	for (id item in items) {
+		if ([item isEqualToString:@"WORKSPACE"]) {
+			continue;
+		}
+		
+		draggedIndex = [outlineView rowForItem:item]-1;
+	}
+	
     //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
     [pasteboard declareTypes:[NSArray arrayWithObject:MyPrivateTableViewDataType] owner:self];
     //[pboard setData:data forType:MyPrivateTableViewDataType];
@@ -190,7 +202,7 @@ static NSMutableArray *objectList = NULL;
 
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id<NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
-    if ([item isEqualToString:@"WORKSPACE"])
+    if ([item isEqualToString:@"WORKSPACE"] && index >= 0)
     {
         return NSDragOperationMove;
     }
@@ -200,6 +212,20 @@ static NSMutableArray *objectList = NULL;
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id<NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
 {
+	id object = [openFiles objectAtIndex:draggedIndex];
+	
+	[openFiles removeObjectAtIndex:draggedIndex];
+	
+	if (draggedIndex < index)
+	{
+		index--;
+	}
+	
+	[openFiles insertObject:object atIndex:index];
+
+	
+	[outlineView reloadData];
+	
     return YES;
 }
 

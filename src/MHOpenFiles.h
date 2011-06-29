@@ -14,6 +14,7 @@
     NSOutlineView *fileBrowserView;
     NSView *dividerView;
     id tabView;
+	NSInteger draggedIndex;
 }
 
 + (MHOpenFiles *)sharedInstance;
