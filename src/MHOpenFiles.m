@@ -208,7 +208,7 @@ static NSMutableArray *objectList = NULL;
 
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id<NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
-    if ([item isEqualToString:@"WORKSPACE"] && index >= 0)
+    if (([item isEqualToString:@"WORKSPACE"] && index >= 0) || (item == nil && index == 1))
     {
         return NSDragOperationMove;
     }
@@ -218,6 +218,11 @@ static NSMutableArray *objectList = NULL;
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id<NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
 {
+    if (item == nil && index == 1)
+    {
+        index = [openFiles count];
+    }
+    
 	id object = [openFiles objectAtIndex:draggedIndex];
 	
 	[openFiles removeObjectAtIndex:draggedIndex];

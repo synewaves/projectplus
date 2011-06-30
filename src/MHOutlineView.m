@@ -15,10 +15,15 @@
 {
     self = [super init];
     if (self) {
-        // Initialization code here.
+        [self addTrackingRect:[self bounds] owner:self userData:nil assumeInside:NO];
     }
     
     return self;
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent
+{
+    NSLog(@"mouse entered!");
 }
 
 - (NSRect)frameOfCellAtColumn:(NSInteger)column row:(NSInteger)row
