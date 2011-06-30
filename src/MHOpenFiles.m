@@ -66,7 +66,7 @@ static NSMutableArray *objectList = NULL;
 {
     outlineView = theOutlineView;
 	
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_7
+#if defined(MAC_OS_X_VERSION_10_7)
 	[outlineView setIndentationPerLevel:0.0];
 #endif
     
