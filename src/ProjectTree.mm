@@ -32,9 +32,19 @@
 	}
 }
 
+- (void)Document_windowDidLoad
+{
+    [self Document_windowDidLoad];
+    
+#if MAC_OS_X_VERSION_MIN_REQUIRED == MAC_OS_X_VERSION_10_7
+    NSWindow *window = [self window];
+    [window setCollectionBehavior:([window collectionBehavior] | NSWindowCollectionBehaviorFullScreenPrimary)];
+#endif
+}
+
 - (void)ProjectTree_windowDidLoad
 {
-	[self ProjectTree_windowDidLoad];
+    [self ProjectTree_windowDidLoad];
 
 	if(not [ProjectTree preserveTreeState])
 		return;
@@ -242,7 +252,9 @@
                        [NSNumber numberWithBool:YES], @"ProjectPlus Preserve Tree",
                        [NSNumber numberWithBool:YES], @"ProjectPlus Workspace",
                        nil]];
-
+    
+    [NSClassFromString(@"OakDocumentController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(Document_windowDidLoad) error:NULL];
+    
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(ProjectTree_windowDidLoad) error:NULL];
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(writeToFile:) withMethod:@selector(ProjectTree_writeToFile:) error:NULL];
     [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(outlineView:willDisplayCell:forTableColumn:item:) withMethod:@selector(ProjectTree_outlineView:willDisplayCell:forTableColumn:item:) error:NULL];
