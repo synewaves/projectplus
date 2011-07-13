@@ -73,7 +73,13 @@
 			closed = ! [flag boolValue];
 
 		[self setSidebarIsClosed:closed];
-	}
+	} else {
+        int sidebarWidth  = 250;
+		int documentWidth = [splitView bounds].size.width - [splitView dividerThickness] - sidebarWidth;
+		int height        = [splitView bounds].size.height;
+		[[splitView drawerView] setFrameSize:NSMakeSize(sidebarWidth, height)];
+		[[splitView documentView] setFrameSize:NSMakeSize(documentWidth, height)];
+    }
 	
 	[drawer close];
 }
