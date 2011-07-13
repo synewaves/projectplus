@@ -184,6 +184,19 @@
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
 		};
+		0EA6225213CDDA1E0081F899 /* mh */ = {
+			isa = PBXGroup;
+			children = (
+				0E8A9348138C20150044F2D2 /* MHDividerView.h */,
+				0E8A9349138C20150044F2D2 /* MHDividerView.m */,
+				0E4A151313A2C3E40096ACDE /* MHOutlineView.h */,
+				0E4A151413A2C3E40096ACDE /* MHOutlineView.m */,
+				0E70FE8B137F359E00804EB9 /* MHOpenFiles.h */,
+				0E70FE8C137F359E00804EB9 /* MHOpenFiles.m */,
+			);
+			name = mh;
+			sourceTree = "<group>";
+		};
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -225,10 +238,7 @@
 		915AD4D30ED9E6AD0017679A /* src */ = {
 			isa = PBXGroup;
 			children = (
-				0E4A151313A2C3E40096ACDE /* MHOutlineView.h */,
-				0E4A151413A2C3E40096ACDE /* MHOutlineView.m */,
-				0E70FE8B137F359E00804EB9 /* MHOpenFiles.h */,
-				0E70FE8C137F359E00804EB9 /* MHOpenFiles.m */,
+				0EA6225213CDDA1E0081F899 /* mh */,
 				915AD4DB0ED9E6AD0017679A /* scm */,
 				915AD4E80ED9E6AD0017679A /* sidebar */,
 				915AD5090ED9E7170017679A /* etc */,
@@ -239,8 +249,6 @@
 				915AD4EE0ED9E6AD0017679A /* Sorting.mm */,
 				915AD4F00ED9E6AD0017679A /* TMLabels.mm */,
 				915AD4F10ED9E6AD0017679A /* Tooltips.mm */,
-				0E8A9348138C20150044F2D2 /* MHDividerView.h */,
-				0E8A9349138C20150044F2D2 /* MHDividerView.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
