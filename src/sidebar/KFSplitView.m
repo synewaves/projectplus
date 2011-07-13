@@ -166,9 +166,6 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
 
 - (void)kfSetup
 {
-    // be sure to setup cursors before calling setVertical:
-    [self kfSetupResizeCursors];
-
     kfCollapsedSubviews = [[NSMutableSet alloc] init];
     kfDividerRects = [[NSMutableArray alloc] init];
     
@@ -177,23 +174,6 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
 
     [self setVertical:[self isVertical]];
     [self setDividerStyle:NSSplitViewDividerStyleThin];
-}
-
-// Attempts to find cursors to use as kfIsVerticalResizeCursor and kfNotIsVerticalResizeCursor.
-// These cursors are eventually released, so make sure each receives a retain message now.
-// If no good cursors can be found, an error is printed and the arrow cursor is used.
-- (void)kfSetupResizeCursors
-{
-    if (kfIsVerticalResizeCursor == nil)
-    {
-        kfIsVerticalResizeCursor = [[NSCursor resizeLeftRightCursor] retain];
-        NSLog(@"Warning - no horizontal resizing cursor located.  Please report this as a bug.");
-    }
-    if (kfNotIsVerticalResizeCursor == nil)
-    {
-        kfNotIsVerticalResizeCursor = [[NSCursor resizeLeftRightCursor] retain];
-        NSLog(@"Warning - no vertical resizing cursor located.  Please report this as a bug.");
-    }
 }
 
 - (void)awakeFromNib
@@ -828,11 +808,11 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
     kfIsVertical = flag;
     if (kfIsVertical)
     {
-        kfCurrentResizeCursor = kfIsVerticalResizeCursor;
+        kfCurrentResizeCursor = [NSCursor resizeLeftRightCursor];
     }
     else
     {
-        kfCurrentResizeCursor = kfNotIsVerticalResizeCursor;
+        kfCurrentResizeCursor = [NSCursor resizeLeftRightCursor];
     }
 }
 
