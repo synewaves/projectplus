@@ -187,6 +187,9 @@ static NSMutableArray *objectList = NULL;
 	// get object
 	id item = [outlineView itemAtRow:[outlineView selectedRow]];
     [tabView selectTabWithIdentifier:item];
+    
+    // deselect the file broswer
+    [fileBrowserView deselectAll:self];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pasteboard
