@@ -18,8 +18,6 @@
 	id *selectedItem;
 }
 
-+ (MHOpenFiles *)sharedInstance;
-
 + (id)objectForTabs:(id)theTabs;
 - (id)initForTabs:(id)theTabs;
 

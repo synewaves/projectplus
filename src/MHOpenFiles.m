@@ -10,18 +10,7 @@
 
 @implementation MHOpenFiles
 
-static MHOpenFiles *sharedInstance;
 static NSMutableArray *objectList = NULL;
-
-+ (MHOpenFiles *)sharedInstance
-{
-    if (!sharedInstance)
-    {
-        sharedInstance = [MHOpenFiles new];
-    }
-    
-    return sharedInstance;
-}
 
 + (id)objectForTabs:(id)theTabs
 {
@@ -40,11 +29,6 @@ static NSMutableArray *objectList = NULL;
     
     MHOpenFiles *obj = [[MHOpenFiles alloc] initForTabs:theTabs];
     [objectList addObject:obj];
-    
-    if (!sharedInstance)
-    {
-        sharedInstance = obj;
-    }
     
     return obj;
 }
