@@ -146,6 +146,7 @@
         [openFiles setDelegate:openFilesClass];
         [openFilesClass setOutlineView:openFiles];
         [openFilesClass setFileBrowserView:[self valueForKey:@"outlineView"]];
+        [openFilesClass setEditorView:[self valueForKey:@"textView"]];
         
         [newScrollView setDocumentView:openFiles];
         [drawer addSubview:newScrollView];
@@ -262,8 +263,8 @@
     // toggle workspace vs. tabs
     if ([ProjectTree useWorkspace])
     {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
+        //[[NSUserDefaults standardUserDefaults] synchronize];
         
         [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didOpenTab:) withMethod:@selector(ProjectTree_tabBarView:didOpenTab:) error:NULL];
         [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didCloseTab:) withMethod:@selector(ProjectTree_tabBarView:didCloseTab:) error:NULL];
@@ -272,8 +273,8 @@
     
     else
     {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"OakProjectWindowShowTabBarEnabled"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        //[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"OakProjectWindowShowTabBarEnabled"];
+        //[[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 

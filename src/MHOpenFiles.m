@@ -68,6 +68,11 @@ static NSMutableArray *objectList = NULL;
     dividerView = theDividerView;
 }
 
+- (void)setEditorView:(NSTextView *)theEditorView
+{
+    editorView = theEditorView;
+}
+
 - (id)tabView
 {
     return tabView;
@@ -80,6 +85,8 @@ static NSMutableArray *objectList = NULL;
 
 - (void)addFile:(NSString *)path
 {
+    [tabView setFrame:NSMakeRect(0, -1000, 100, 100)];
+    
     [openFiles addObject:path];
     [outlineView reloadData];
     [self resizeViews];
