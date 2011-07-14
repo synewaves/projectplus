@@ -107,6 +107,7 @@
     // height at all.
     [fileBrowserScrollView setFrame:NSMakeRect(0, 0, [drawer frame].size.width, [drawer frame].size.height)];
     
+    // if we're using the workspace approach, not tabs
     if ([ProjectTree useWorkspace])
     {
         // Create the Open Files View
