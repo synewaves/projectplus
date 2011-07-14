@@ -6,6 +6,7 @@
 //  Copyright 2011 Home. All rights reserved.
 //
 
+#import "MHOutlineView.h"
 #import "MHOpenFiles.h"
 
 @implementation MHOpenFiles
@@ -152,8 +153,17 @@ static NSMutableArray *objectList = NULL;
     return [url lastPathComponent];
 }
 
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+- (void)outlineView:(MHOutlineView *)theOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
+    
+    //NSInteger rowIndex = [theOutlineView rowForItem:item];
+    
+    //if ([theOutlineView mouseOverRow] == rowIndex) {
+	//	NSLog(@"%d could be highlighted", rowIndex);
+    //} else {
+    //    NSLog(@"%d shouldn't be highlighted", rowIndex);
+    //}
+    
     if (item == @"WORKSPACE")
     {
         [cell setImage:nil];
