@@ -184,7 +184,7 @@
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
 		};
-		0EA6225213CDDA1E0081F899 /* mh */ = {
+		0EA6225213CDDA1E0081F899 /* workspace */ = {
 			isa = PBXGroup;
 			children = (
 				0E8A9348138C20150044F2D2 /* MHDividerView.h */,
@@ -194,7 +194,7 @@
 				0E70FE8B137F359E00804EB9 /* MHOpenFiles.h */,
 				0E70FE8C137F359E00804EB9 /* MHOpenFiles.m */,
 			);
-			name = mh;
+			name = workspace;
 			sourceTree = "<group>";
 		};
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
@@ -238,7 +238,7 @@
 		915AD4D30ED9E6AD0017679A /* src */ = {
 			isa = PBXGroup;
 			children = (
-				0EA6225213CDDA1E0081F899 /* mh */,
+				0EA6225213CDDA1E0081F899 /* workspace */,
 				915AD4DB0ED9E6AD0017679A /* scm */,
 				915AD4E80ED9E6AD0017679A /* sidebar */,
 				915AD5090ED9E7170017679A /* etc */,
