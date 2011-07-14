@@ -74,6 +74,8 @@
 			closed = ! [flag boolValue];
 
 		[self setSidebarIsClosed:closed];
+    
+    // New/Temp Project
 	} else {
         int sidebarWidth  = 250;
 		int documentWidth = [splitView bounds].size.width - [splitView dividerThickness] - sidebarWidth;
