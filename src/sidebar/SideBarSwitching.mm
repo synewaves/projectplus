@@ -53,8 +53,8 @@
 			[splitView addSubview:drawerView];
 		[window setContentView:splitView];
 	}
+    
 	[splitView release];
-
 	[documentView release];
 	[drawerView release];
 	
