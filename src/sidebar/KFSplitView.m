@@ -166,6 +166,9 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
 
 - (void)kfSetup
 {
+    // be sure to setup cursors before calling setVertical:
+    [self kfSetupResizeCursors];
+
     kfCollapsedSubviews = [[NSMutableSet alloc] init];
     kfDividerRects = [[NSMutableArray alloc] init];
     
@@ -173,7 +176,43 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
     kfNotificationCenter = [NSNotificationCenter defaultCenter];
 
     [self setVertical:[self isVertical]];
-    [self setDividerStyle:NSSplitViewDividerStyleThin];
+}
+
+// Attempts to find cursors to use as kfIsVerticalResizeCursor and kfNotIsVerticalResizeCursor.
+// These cursors are eventually released, so make sure each receives a retain message now.
+// If no good cursors can be found, an error is printed and the arrow cursor is used.
+- (void)kfSetupResizeCursors
+{
+    NSImage *isVerticalImage, *isNotVerticalImage;
+
+    if (isVerticalImage = [NSImage imageNamed:@"NSTruthHorizontalResizeCursor"]); // standard Jaguar NSSplitView resize cursor
+    else if  (isVerticalImage = [NSImage imageNamed:@"NSTruthHResizeCursor"]);
+
+    if (isVerticalImage)
+    {
+        kfIsVerticalResizeCursor = [[NSCursor alloc] initWithImage:isVerticalImage
+                                                           hotSpot:NSMakePoint(8,8)];
+    }
+
+    if (isNotVerticalImage = [NSImage imageNamed:@"NSTruthVerticalResizeCursor"]); // standard Jaguar NSSplitView resize cursor
+    else if  (isNotVerticalImage = [NSImage imageNamed:@"NSTruthVResizeCursor"]);
+
+    if (isNotVerticalImage)
+    {
+        kfNotIsVerticalResizeCursor = [[NSCursor alloc] initWithImage:isNotVerticalImage
+                                                           hotSpot:NSMakePoint(8,8)];
+    }
+
+    if (kfIsVerticalResizeCursor == nil)
+    {
+        kfIsVerticalResizeCursor = [[NSCursor arrowCursor] retain];
+        NSLog(@"Warning - no horizontal resizing cursor located.  Please report this as a bug.");
+    }
+    if (kfNotIsVerticalResizeCursor == nil)
+    {
+        kfNotIsVerticalResizeCursor = [[NSCursor arrowCursor] retain];
+        NSLog(@"Warning - no vertical resizing cursor located.  Please report this as a bug.");
+    }
 }
 
 - (void)awakeFromNib
@@ -808,11 +847,11 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
     kfIsVertical = flag;
     if (kfIsVertical)
     {
-        kfCurrentResizeCursor = [NSCursor resizeLeftRightCursor];
+        kfCurrentResizeCursor = kfIsVerticalResizeCursor;
     }
     else
     {
-        kfCurrentResizeCursor = [NSCursor resizeLeftRightCursor];
+        kfCurrentResizeCursor = kfNotIsVerticalResizeCursor;
     }
 }
 

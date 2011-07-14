@@ -44,6 +44,7 @@
 		[splitView setVertical:YES];
 		[splitView setDelegate:self];
 		[splitView setSideBarOnRight:[SideBarSwitching sidebarOnRight]];
+        [splitView setDividerStyle:NSSplitViewDividerStyleThin];
 
 		if(not [SideBarSwitching sidebarOnRight])
 			[splitView addSubview:drawerView];
