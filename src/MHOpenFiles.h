@@ -13,10 +13,11 @@
     NSOutlineView *outlineView;
     NSOutlineView *fileBrowserView;
     NSView *dividerView;
+    NSTextView *editorView;
     id tabView;
+	NSInteger draggedIndex;
+	id *selectedItem;
 }
-
-+ (MHOpenFiles *)sharedInstance;
 
 + (id)objectForTabs:(id)theTabs;
 - (id)initForTabs:(id)theTabs;
@@ -24,6 +25,7 @@
 - (void)setOutlineView:(NSOutlineView *)theOutlineView;
 - (void)setFileBrowserView:(NSOutlineView *)theFileBrowserView;
 - (void)setDividerView:(NSView *)theDividerView;
+- (void)setEditorView:(NSTextView *)theEditorView;
 
 - (id)tabView;
 - (void)setTabView:(id)theTabView;

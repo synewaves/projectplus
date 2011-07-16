@@ -32,9 +32,19 @@
 	}
 }
 
+- (void)Document_windowDidLoad
+{
+    [self Document_windowDidLoad];
+    
+#if MAC_OS_X_VERSION_MIN_REQUIRED == MAC_OS_X_VERSION_10_7
+    NSWindow *window = [self window];
+    [window setCollectionBehavior:([window collectionBehavior] | NSWindowCollectionBehaviorFullScreenPrimary)];
+#endif
+}
+
 - (void)ProjectTree_windowDidLoad
 {
-	[self ProjectTree_windowDidLoad];
+    [self ProjectTree_windowDidLoad];
 
 	if(not [ProjectTree preserveTreeState])
 		return;
@@ -97,6 +107,7 @@
     // height at all.
     [fileBrowserScrollView setFrame:NSMakeRect(0, 0, [drawer frame].size.width, [drawer frame].size.height)];
     
+    // if we're using the workspace approach, not tabs
     if ([ProjectTree useWorkspace])
     {
         // Create the Open Files View
@@ -136,6 +147,7 @@
         [openFiles setDelegate:openFilesClass];
         [openFilesClass setOutlineView:openFiles];
         [openFilesClass setFileBrowserView:[self valueForKey:@"outlineView"]];
+        [openFilesClass setEditorView:[self valueForKey:@"textView"]];
         
         [newScrollView setDocumentView:openFiles];
         [drawer addSubview:newScrollView];
@@ -217,17 +229,18 @@
 }
 - (void)ProjectTree_tabBarView:(id)arg1 didCloseTab:(id)tab
 {
-    [self ProjectTree_tabBarView:arg1 didOpenTab:tab];
+	[self ProjectTree_tabBarView:arg1 didOpenTab:tab];
     
     MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
     [openFilesClass removeFile:[tab identifier]];
 }
 
-- (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)arg2
+- (void)ProjectTree_tabBarView:(id)arg1 didSelectTab:(id)tab
 {
-    [self ProjectTree_tabBarView:arg1 didSelectTab:arg2];
-    
-    [[MHOpenFiles sharedInstance] selectFile:[arg2 identifier]];
+	[self ProjectTree_tabBarView:arg1 didSelectTab:tab];
+	
+	MHOpenFiles *openFilesClass = [MHOpenFiles objectForTabs:[self valueForKey:@"tabBarView"]];
+	[openFilesClass selectFile:[tab identifier]];
 }
 
 
@@ -241,7 +254,9 @@
                        [NSNumber numberWithBool:YES], @"ProjectPlus Preserve Tree",
                        [NSNumber numberWithBool:YES], @"ProjectPlus Workspace",
                        nil]];
-
+    
+    [NSClassFromString(@"OakDocumentController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(Document_windowDidLoad) error:NULL];
+    
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(windowDidLoad) withMethod:@selector(ProjectTree_windowDidLoad) error:NULL];
 	[NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(writeToFile:) withMethod:@selector(ProjectTree_writeToFile:) error:NULL];
     [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(outlineView:willDisplayCell:forTableColumn:item:) withMethod:@selector(ProjectTree_outlineView:willDisplayCell:forTableColumn:item:) error:NULL];
@@ -249,8 +264,8 @@
     // toggle workspace vs. tabs
     if ([ProjectTree useWorkspace])
     {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"OakProjectWindowShowTabBarEnabled"];
+        //[[NSUserDefaults standardUserDefaults] synchronize];
         
         [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didOpenTab:) withMethod:@selector(ProjectTree_tabBarView:didOpenTab:) error:NULL];
         [NSClassFromString(@"OakProjectController") jr_swizzleMethod:@selector(tabBarView:didCloseTab:) withMethod:@selector(ProjectTree_tabBarView:didCloseTab:) error:NULL];
@@ -259,8 +274,8 @@
     
     else
     {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"OakProjectWindowShowTabBarEnabled"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        //[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"OakProjectWindowShowTabBarEnabled"];
+        //[[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 

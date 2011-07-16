@@ -44,6 +44,7 @@
 		[splitView setVertical:YES];
 		[splitView setDelegate:self];
 		[splitView setSideBarOnRight:[SideBarSwitching sidebarOnRight]];
+        [splitView setDividerStyle:NSSplitViewDividerStyleThin];
 
 		if(not [SideBarSwitching sidebarOnRight])
 			[splitView addSubview:drawerView];
@@ -52,8 +53,8 @@
 			[splitView addSubview:drawerView];
 		[window setContentView:splitView];
 	}
+    
 	[splitView release];
-
 	[documentView release];
 	[drawerView release];
 	
@@ -73,7 +74,15 @@
 			closed = ! [flag boolValue];
 
 		[self setSidebarIsClosed:closed];
-	}
+    
+    // New/Temp Project
+	} else {
+        int sidebarWidth  = 250;
+		int documentWidth = [splitView bounds].size.width - [splitView dividerThickness] - sidebarWidth;
+		int height        = [splitView bounds].size.height;
+		[[splitView drawerView] setFrameSize:NSMakeSize(sidebarWidth, height)];
+		[[splitView documentView] setFrameSize:NSMakeSize(documentWidth, height)];
+    }
 	
 	[drawer close];
 }

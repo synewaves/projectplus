@@ -176,7 +176,6 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
     kfNotificationCenter = [NSNotificationCenter defaultCenter];
 
     [self setVertical:[self isVertical]];
-    [self setDividerStyle:NSSplitViewDividerStyleThin];
 }
 
 // Attempts to find cursors to use as kfIsVerticalResizeCursor and kfNotIsVerticalResizeCursor.
@@ -184,14 +183,34 @@ static BOOL kfScaleUInts(unsigned *integers, int numInts, unsigned targetTotal)
 // If no good cursors can be found, an error is printed and the arrow cursor is used.
 - (void)kfSetupResizeCursors
 {
+    NSImage *isVerticalImage, *isNotVerticalImage;
+
+    if (isVerticalImage = [NSImage imageNamed:@"NSTruthHorizontalResizeCursor"]); // standard Jaguar NSSplitView resize cursor
+    else if  (isVerticalImage = [NSImage imageNamed:@"NSTruthHResizeCursor"]);
+
+    if (isVerticalImage)
+    {
+        kfIsVerticalResizeCursor = [[NSCursor alloc] initWithImage:isVerticalImage
+                                                           hotSpot:NSMakePoint(8,8)];
+    }
+
+    if (isNotVerticalImage = [NSImage imageNamed:@"NSTruthVerticalResizeCursor"]); // standard Jaguar NSSplitView resize cursor
+    else if  (isNotVerticalImage = [NSImage imageNamed:@"NSTruthVResizeCursor"]);
+
+    if (isNotVerticalImage)
+    {
+        kfNotIsVerticalResizeCursor = [[NSCursor alloc] initWithImage:isNotVerticalImage
+                                                           hotSpot:NSMakePoint(8,8)];
+    }
+
     if (kfIsVerticalResizeCursor == nil)
     {
-        kfIsVerticalResizeCursor = [[NSCursor resizeLeftRightCursor] retain];
+        kfIsVerticalResizeCursor = [[NSCursor arrowCursor] retain];
         NSLog(@"Warning - no horizontal resizing cursor located.  Please report this as a bug.");
     }
     if (kfNotIsVerticalResizeCursor == nil)
     {
-        kfNotIsVerticalResizeCursor = [[NSCursor resizeLeftRightCursor] retain];
+        kfNotIsVerticalResizeCursor = [[NSCursor arrowCursor] retain];
         NSLog(@"Warning - no vertical resizing cursor located.  Please report this as a bug.");
     }
 }
